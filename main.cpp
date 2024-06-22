@@ -14,8 +14,6 @@ const double DIRECT_DELIVERY_PRICE = 5.0;
 const double STANDARD_DELIVERY_PRICE = 3.0;
 const double SAVER_DELIVERY_PRICE = 0.0;
 
-
-// Function prototypes
 void displayMainMenu(OrderHistory& orderHistory);
 void login();
 void newFoodOrder(OrderHistory& orderHistory);
