@@ -17,7 +17,7 @@ const double SAVER_DELIVERY_PRICE = 0.0;
 void displayMainMenu(OrderHistory& orderHistory);
 void login();
 void newFoodOrder(OrderHistory& orderHistory);
-void reorder(OrderHistory& orderHistory);
+void reorder(OrderHistory& orderHistory);   
 
 std::vector<Restaurant> initializeRestaurants();
 
@@ -38,7 +38,7 @@ std::vector<Restaurant> initializeRestaurants() {
 
     Restaurant r1("Italian Bistro");
     r1.addFoodItem(FoodItem("Spaghetti Carbonara", 12.99, "Classic Italian pasta dish with creamy sauce."));
-    r1.addFoodItem(FoodItem("Margherita Pizza", 10.99, "Tomato, mozzarella, and basil."));
+    r1.addFoodItem(MainCourse("Filet Mignon", 24.99, "Tender filet mignon steak grilled to perfection.", "Steakhouse Special"));
     restaurants.push_back(r1);
 
     Restaurant r2("Sushi House");
