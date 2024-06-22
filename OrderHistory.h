@@ -34,6 +34,8 @@ public:
                 }
                 file << "\n";
             }
+            file << "Food Utensils: " << (order.getHasUtensils() ? "Yes - $0.5\n" : "No\n");
+            file << "Tip: $" << order.getTipAmount() << "\n";
             file << "Total Amount: " << order.calculateTotal() << "\n";
             file << "------------------------------------\n";
             file.close();
