@@ -159,6 +159,43 @@ void newFoodOrder(OrderHistory& orderHistory) {
 
     order.displayOrderSummary();
 
+    // Add food utensils option
+    char addUtensilsChoice;
+    std::cout << "Do you want to add food utensils? (y/n): ";
+    std::cin >> addUtensilsChoice;
+    if (addUtensilsChoice == 'y' || addUtensilsChoice == 'Y') {
+        order.addFoodUtensils(true);
+    }
+    else {
+        order.addFoodUtensils(false);
+    }
+
+    // Add delivery tip option
+    int tipChoice;
+    std::cout << "Select delivery tip:\n";
+    std::cout << "1. None\n";
+    std::cout << "2. $1\n";
+    std::cout << "3. $2\n";
+    std::cin >> tipChoice;
+
+    switch (tipChoice) {
+    case 1:
+        order.addDeliveryTip(0.0); // No tip
+        break;
+    case 2:
+        order.addDeliveryTip(1.0); // $1 tip
+        break;
+    case 3:
+        order.addDeliveryTip(2.0); // $2 tip
+        break;
+    default:
+        std::cout << "Invalid tip choice. No tip will be added.\n";
+        order.addDeliveryTip(0.0); // Default to no tip
+        break;
+    }
+
+    order.displayOrderSummary(); // Display order summary again with utensils and tip
+
     std::string address, deliveryOption;
     double deliveryPrice = 0.0;
 
@@ -194,7 +231,7 @@ void newFoodOrder(OrderHistory& orderHistory) {
     Delivery delivery(address, deliveryOption, deliveryPrice);
     order.setDelivery(delivery);
 
-    order.displayOrderSummary(); // Display order summary again with delivery details
+    order.displayOrderSummary(); // Display final order summary
 
     std::cout << "\nSelect payment method:\n";
     std::cout << "1. Cash on Delivery\n";
@@ -243,6 +280,7 @@ void newFoodOrder(OrderHistory& orderHistory) {
         std::cout << "\nPayment failed. Please try again.\n";
     }
 }
+
 
 void reorder(OrderHistory& orderHistory) {
     if (orderHistory.getOrderHistory().empty()) {
