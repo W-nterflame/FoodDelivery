@@ -1,8 +1,8 @@
-#ifndef ORDERHISTORY_H
-#define ORDERHISTORY_H
+#ifndef ORDER_HISTORY_H
+#define ORDER_HISTORY_H
 
-#include <vector>
 #include <fstream>
+#include <stdexcept>
 #include "Order.h"
 
 class OrderHistory {
@@ -15,7 +15,12 @@ public:
 
     void addOrder(const Order& order) {
         orders.push_back(order);
-        saveOrderToFile(order);
+        try {
+            saveOrderToFile(order);
+        }
+        catch (const std::exception& e) {
+            std::cerr << "Error occurred while saving order: " << e.what() << std::endl;
+        }
     }
 
     void saveOrderToFile(const Order& order) {
@@ -50,4 +55,4 @@ public:
     }
 };
 
-#endif // ORDERHISTORY_H
+#endif ORDER_HISTORY_H
