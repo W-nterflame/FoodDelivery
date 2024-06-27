@@ -85,6 +85,75 @@ public:
     const Delivery& getDelivery() const {
         return delivery;
     }
+
+    void displayOrderMenu(const Restaurant& selectedRestaurant) {
+        int itemChoice;
+        int quantity;
+        char addMore;
+        do {
+            std::cout << "\nEnter the number of the food item to order: ";
+            std::cin >> itemChoice;
+            if (itemChoice < 1 || itemChoice > selectedRestaurant.getMenuSize()) {
+                std::cout << "Invalid choice. Please try again.\n";
+                continue;
+            }
+
+            FoodItem selectedItem = selectedRestaurant.getFoodItem(itemChoice - 1);
+
+            std::cout << "Enter quantity: ";
+            std::cin >> quantity;
+
+            std::string specialInstructions;
+            std::cout << "Enter any special instructions (or press Enter to skip): ";
+            std::cin.ignore(); // To clear the newline left by previous input
+            std::getline(std::cin, specialInstructions);
+            selectedItem.setSpecialInstructions(specialInstructions);
+
+            addItem(selectedItem, quantity);
+
+            std::cout << "Add more items? (y/n): ";
+            std::cin >> addMore;
+        } while (addMore == 'y' || addMore == 'Y');
+
+        displayOrderSummary();
+    }
+
+    void displayUtensilOption() {
+        char addUtensilsChoice;
+        std::cout << "Do you want to add food utensils? (y/n): ";
+        std::cin >> addUtensilsChoice;
+        if (addUtensilsChoice == 'y' || addUtensilsChoice == 'Y') {
+            addFoodUtensils(true);
+        }
+        else {
+            addFoodUtensils(false);
+        }
+    }
+
+    void displayTipOption() {
+        int tipChoice;
+        std::cout << "Select delivery tip:\n";
+        std::cout << "1. None\n";
+        std::cout << "2. $1\n";
+        std::cout << "3. $2\n";
+        std::cin >> tipChoice;
+
+        switch (tipChoice) {
+        case 1:
+            addDeliveryTip(0.0); // No tip
+            break;
+        case 2:
+            addDeliveryTip(1.0); // $1 tip
+            break;
+        case 3:
+            addDeliveryTip(2.0); // $2 tip
+            break;
+        default:
+            std::cout << "Invalid tip choice. No tip will be added.\n";
+            addDeliveryTip(0.0); // Default to no tip
+            break;
+        }
+    }
 };
 
 #endif // ORDER_H
