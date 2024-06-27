@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <stdexcept> // For std::runtime_error
+#include <stdexcept> 
 #include "User.h"
 #include "Restaurant.h"
 #include "FoodItem.h"
@@ -9,7 +9,9 @@
 #include "Delivery.h"
 #include "Payment.h"
 
-const std::string ORDER_HISTORY_FILE = "order_history.csv";
+using namespace std;
+
+const string ORDER_HISTORY_FILE = "order_history.csv";
 const double DIRECT_DELIVERY_PRICE = 5.0;
 const double STANDARD_DELIVERY_PRICE = 3.0;
 const double SAVER_DELIVERY_PRICE = 0.0;
@@ -17,9 +19,9 @@ const double SAVER_DELIVERY_PRICE = 0.0;
 void displayMainMenu(OrderHistory& orderHistory);
 void login();
 void newFoodOrder(OrderHistory& orderHistory);
-void reorder(OrderHistory& orderHistory);   
+void reorder(OrderHistory& orderHistory);
 
-std::vector<Restaurant> initializeRestaurants();
+vector<Restaurant> initializeRestaurants();
 
 int main() {
     try {
@@ -27,69 +29,65 @@ int main() {
         OrderHistory orderHistory(ORDER_HISTORY_FILE);
         displayMainMenu(orderHistory);
     }
-    catch (const std::exception& e) {
-        std::cerr << "Error occurred: " << e.what() << std::endl;
+    catch (const exception& e) {
+        cerr << "Error occurred: " << e.what() << endl;
     }
     return 0;
 }
 
-std::vector<Restaurant> initializeRestaurants() {
-    std::vector<Restaurant> restaurants;
+vector<Restaurant> initializeRestaurants() {
+    vector<Restaurant> restaurants;
 
     Restaurant r1("Italian Bistro");
-    r1.addFoodItem(FoodItem("Spaghetti Carbonara", 12.99, "Classic Italian pasta dish with creamy sauce."));
-    r1.addFoodItem(MainCourse("Filet Mignon", 24.99, "Tender filet mignon steak grilled to perfection.", "Steakhouse Special"));
+    r1.addFoodItem(FoodItem("Bruschetta", 8.99, "Freshly toasted bread topped with chopped tomatoes, garlic, olive oil, and herbs."));
+    r1.addFoodItem(FoodItem("Penne Arrabbiata", 13.50, "Spicy penne pasta with tomato sauce, garlic, and chili flakes."));
+    r1.addFoodItem(FoodItem("Chicken Piccata", 19.99, "Tender chicken breast sauteed in a lemon butter sauce with capers."));
+    r1.addFoodItem(FoodItem("Shrimp Scampi", 21.99, "Plump shrimp sauteed in garlic, white wine, butter, and lemon juice."));
+    r1.addFoodItem(FoodItem("Tiramisu", 7.50, "Classic Italian layered dessert with ladyfingers, coffee, mascarpone cheese, and cocoa powder."));
     restaurants.push_back(r1);
 
     Restaurant r2("Sushi House");
-    r2.addFoodItem(FoodItem("California Roll", 8.99, "Crab, avocado, and cucumber roll."));
-    r2.addFoodItem(FoodItem("Spicy Tuna Roll", 9.99, "Tuna, spicy mayo, and cucumber roll."));
+    r2.addFoodItem(FoodItem("Edamame", 5.99, "Steamed soybeans in their pods."));
+    r2.addFoodItem(FoodItem("Salmon Nigiri", 6.50, "Fresh salmon slice on vinegared rice."));
+    r2.addFoodItem(FoodItem("Philadelphia Roll", 8.99, "Smoked salmon, cream cheese, and cucumber roll."));
+    r2.addFoodItem(FoodItem("Tuna Roll", 8.99, "Fresh purified tuna, rolled with onigiri style sauce."));
+    r2.addFoodItem(FoodItem("Green Tea", 2.50, "Refreshing hot or cold green tea."));
     restaurants.push_back(r2);
+
+    Restaurant r3("Aroi Delights");
+    r3.addFoodItem(FoodItem("Fresh Spring Rolls", 5.99, "Rice paper rolls with shrimp, pork, vegetables, and peanut dipping sauce."));
+    r3.addFoodItem(FoodItem("Ayutthaya Boat Noodle", 2.99, "Classic bowl of mild spicy sour boat noodle."));
+    r3.addFoodItem(FoodItem("Pad Thai", 7.99, "Stir-fried rice noodles with egg, vegetables, and your choice of protein."));
+    r3.addFoodItem(FoodItem("Tom Yum Goong", 8.99, "Fragrant and sour soup with shrimp, lemongrass, kaffir lime leaves, and mushrooms."));
+    r3.addFoodItem(FoodItem("Tom Kha Gai", 8.50, "Creamy coconut soup with chicken, galangal, lemongrass, and kaffir lime leaves."));
+    r3.addFoodItem(FoodItem("Thai Iced Tea", 3.50, "Sweet and refreshing iced tea with condensed milk."));
+    restaurants.push_back(r3);
 
     return restaurants;
 }
 
 void login() {
-    User users[5] = {
-        User("user1", "pass1"),
-        User("user2", "pass2"),
-        User("user3", "pass3"),
-        User("user4", "pass4"),
-        User("user5", "pass5")
-    };
+    string username;
+    string password;
+    cout << "Login Menu:\n";
+    cout << "Enter your username: ";
+    cin >> username;
 
-    std::string username, password;
-    bool authenticated = false;
+    cout << "Enter your password: ";
+    cin >> password;
 
-    while (!authenticated) {
-        std::cout << "Enter username: ";
-        std::cin >> username;
-        std::cout << "Enter password: ";
-        std::cin >> password;
-
-        for (const auto& user : users) {
-            if (user.authenticate(username, password)) {
-                std::cout << "Login successful!" << std::endl;
-                authenticated = true;
-                break;
-            }
-        }
-
-        if (!authenticated) {
-            std::cout << "Invalid username or password. Please try again." << std::endl;
-        }
-    }
+    cout << "Login successful.\n";
 }
 
 void displayMainMenu(OrderHistory& orderHistory) {
     int choice;
     do {
-        std::cout << "\nMain Menu\n";
-        std::cout << "1. New Food Order\n";
-        std::cout << "2. Reorder\n";
-        std::cout << "3. Exit\n";
-        std::cout << "Enter your choice: ";
-        std::cin >> choice;
+        cout << "Main Menu\n";
+        cout << "1. New Food Order\n";
+        cout << "2. Reorder\n";
+        cout << "3. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
 
         switch (choice) {
         case 1:
@@ -99,293 +97,133 @@ void displayMainMenu(OrderHistory& orderHistory) {
             reorder(orderHistory);
             break;
         case 3:
-            std::cout << "Exiting the program." << std::endl;
+            cout << "Exiting...\n";
             break;
         default:
-            std::cout << "Invalid choice. Please try again." << std::endl;
+            cout << "Invalid choice. Please try again.\n";
+            break;
         }
     } while (choice != 3);
 }
 
 void newFoodOrder(OrderHistory& orderHistory) {
-    std::vector<Restaurant> restaurants = initializeRestaurants();
-
-    std::cout << "\nSelect a restaurant:\n";
+    vector<Restaurant> restaurants = initializeRestaurants();
+    cout << "Select a restaurant:\n";
     for (size_t i = 0; i < restaurants.size(); ++i) {
-        std::cout << i + 1 << ". " << restaurants[i].getName() << "\n";
+        cout << i + 1 << ". " << restaurants[i].getName() << "\n";
     }
 
     int restaurantChoice;
-    std::cin >> restaurantChoice;
+    cout << "Enter the number of the restaurant: ";
+    cin >> restaurantChoice;
+
     if (restaurantChoice < 1 || restaurantChoice > restaurants.size()) {
-        std::cout << "Invalid choice. Returning to main menu.\n";
+        cout << "Invalid choice. Returning to main menu.\n";
         return;
     }
 
     Restaurant selectedRestaurant = restaurants[restaurantChoice - 1];
+
+    cout << "Menu for " << selectedRestaurant.getName() << ":\n";
     selectedRestaurant.displayMenu();
 
     Order order;
-    int itemChoice;
-    int quantity;
-    char addMore;
+    order.displayOrderMenu(selectedRestaurant);
 
-    do {
-        std::cout << "\nEnter the number of the food item to order: ";
-        std::cin >> itemChoice;
-        if (itemChoice < 1 || itemChoice > selectedRestaurant.getMenuSize()) {
-            std::cout << "Invalid choice. Please try again.\n";
-            continue;
+    char addDelivery;
+    cout << "Add delivery? (y/n): ";
+    cin >> addDelivery;
+    if (addDelivery == 'y' || addDelivery == 'Y') {
+        int deliveryOption;
+        cout << "Select delivery option:\n";
+        cout << "1. Direct Delivery - $" << DIRECT_DELIVERY_PRICE << "\n";
+        cout << "2. Standard Delivery - $" << STANDARD_DELIVERY_PRICE << "\n";
+        cout << "3. Saver Delivery - Free\n";
+        cin >> deliveryOption;
+
+        switch (deliveryOption) {
+        case 1:
+            order.setDelivery(Delivery("Direct Delivery", "Fastest delivery option", DIRECT_DELIVERY_PRICE));
+            break;
+        case 2:
+            order.setDelivery(Delivery("Standard Delivery", "Regular delivery time", STANDARD_DELIVERY_PRICE));
+            break;
+        case 3:
+            order.setDelivery(Delivery("Saver Delivery", "Longer delivery time", SAVER_DELIVERY_PRICE));
+            break;
+        default:
+            cout << "Invalid delivery option. No delivery will be added.\n";
+            break;
         }
+    }
 
-        FoodItem selectedItem = selectedRestaurant.getFoodItem(itemChoice - 1);
-
-        std::cout << "Enter quantity: ";
-        std::cin >> quantity;
-
-        std::string specialInstructions;
-        std::cout << "Enter any special instructions (or press Enter to skip): ";
-        std::cin.ignore(); // To clear the newline left by previous input
-        std::getline(std::cin, specialInstructions);
-        selectedItem.setSpecialInstructions(specialInstructions);
-
-        order.addItem(selectedItem, quantity);
-
-        std::cout << "Add more items? (y/n): ";
-        std::cin >> addMore;
-    } while (addMore == 'y' || addMore == 'Y');
+    order.displayUtensilOption();
+    order.displayTipOption();
 
     order.displayOrderSummary();
 
-    // Add food utensils option
-    char addUtensilsChoice;
-    std::cout << "Do you want to add food utensils? (y/n): ";
-    std::cin >> addUtensilsChoice;
-    if (addUtensilsChoice == 'y' || addUtensilsChoice == 'Y') {
-        order.addFoodUtensils(true);
-    }
-    else {
-        order.addFoodUtensils(false);
-    }
-
-    // Add delivery tip option
-    int tipChoice;
-    std::cout << "Select delivery tip:\n";
-    std::cout << "1. None\n";
-    std::cout << "2. $1\n";
-    std::cout << "3. $2\n";
-    std::cin >> tipChoice;
-
-    switch (tipChoice) {
-    case 1:
-        order.addDeliveryTip(0.0); // No tip
-        break;
-    case 2:
-        order.addDeliveryTip(1.0); // $1 tip
-        break;
-    case 3:
-        order.addDeliveryTip(2.0); // $2 tip
-        break;
-    default:
-        std::cout << "Invalid tip choice. No tip will be added.\n";
-        order.addDeliveryTip(0.0); // Default to no tip
-        break;
-    }
-
-    order.displayOrderSummary(); // Display order summary again with utensils and tip
-
-    std::string address, deliveryOption;
-    double deliveryPrice = 0.0;
-
-    std::cout << "\nEnter delivery address: ";
-    std::cin.ignore(); // To clear the newline left by previous input
-    std::getline(std::cin, address);
-
-    std::cout << "Select delivery option:\n";
-    std::cout << "1. Direct (<30 mins)\n";
-    std::cout << "2. Standard (45 mins)\n";
-    std::cout << "3. Saver (60 mins)\n";
-    int deliveryChoice;
-    std::cin >> deliveryChoice;
-
-    switch (deliveryChoice) {
-    case 1:
-        deliveryOption = "Direct (<30 mins)";
-        deliveryPrice = DIRECT_DELIVERY_PRICE;
-        break;
-    case 2:
-        deliveryOption = "Standard (45 mins)";
-        deliveryPrice = STANDARD_DELIVERY_PRICE;
-        break;
-    case 3:
-        deliveryOption = "Saver (60 mins)";
-        deliveryPrice = SAVER_DELIVERY_PRICE;
-        break;
-    default:
-        std::cout << "Invalid choice. Returning to main menu.\n";
-        return;
-    }
-
-    Delivery delivery(address, deliveryOption, deliveryPrice);
-    order.setDelivery(delivery);
-
-    order.displayOrderSummary(); // Display final order summary
-
-    std::cout << "\nSelect payment method:\n";
-    std::cout << "1. Cash on Delivery\n";
-    std::cout << "2. E-Wallet\n";
-    std::cout << "3. Credit Card\n";
-
-    int paymentChoice;
-    std::cin >> paymentChoice;
-
-    std::string paymentMethod;
-    switch (paymentChoice) {
-    case 1:
-        paymentMethod = "Cash";
-        break;
-    case 2:
-        paymentMethod = "E-Wallet";
-        break;
-    case 3:
-        paymentMethod = "Credit Card";
-        break;
-    default:
-        std::cout << "Invalid choice. Returning to main menu.\n";
-        return;
-    }
-
-    double totalAmount = order.calculateTotal();
-    Payment payment(paymentMethod, totalAmount);
-
-    if (paymentMethod == "Credit Card") {
-        std::string cardNumber, expiryDate, cvv;
-        std::cout << "Enter card number: ";
-        std::cin.ignore(); // To clear the newline left by previous input
-        std::getline(std::cin, cardNumber);
-        std::cout << "Enter expiry date (MM/YY): ";
-        std::getline(std::cin, expiryDate);
-        std::cout << "Enter CVV: ";
-        std::getline(std::cin, cvv);
-        payment.setCardDetails(cardNumber, expiryDate, cvv);
-    }
-
-    if (payment.processPayment()) {
+    char confirmOrder;
+    cout << "Confirm order? (y/n): ";
+    cin >> confirmOrder;
+    if (confirmOrder == 'y' || confirmOrder == 'Y') {
         orderHistory.addOrder(order);
-        std::cout << "\nPayment successful. Your order is on its way!\n";
+        cout << "Order confirmed!\n";
     }
     else {
-        std::cout << "\nPayment failed. Please try again.\n";
+        cout << "Order cancelled.\n";
     }
 }
 
-
 void reorder(OrderHistory& orderHistory) {
-    if (orderHistory.getOrderHistory().empty()) {
-        std::cout << "No previous orders found.\n";
+    const vector<Order>& pastOrders = orderHistory.getOrders();
+    if (pastOrders.empty()) {
+        cout << "No past orders found.\n";
         return;
     }
 
-    std::cout << "\nPrevious Orders:\n";
-    const std::vector<Order>& history = orderHistory.getOrderHistory();
-    for (size_t i = 0; i < history.size(); ++i) {
-        std::cout << i + 1 << ". Order " << i + 1 << " - Total: $" << history[i].calculateTotal() << "\n";
+    cout << "Select a past order to reorder:\n";
+    for (size_t i = 0; i < pastOrders.size(); ++i) {
+        cout << "Order " << i + 1 << ":\n";
+        pastOrders[i].displayOrderSummary();
+        cout << "-------------------------\n";
     }
 
-    int orderChoice;
-    std::cout << "\nEnter the number of the order to reorder: ";
-    std::cin >> orderChoice;
+    int reorderChoice;
+    while (true) {
+        cout << "Enter the number of the order to reorder: ";
+        cin >> reorderChoice;
 
-    if (orderChoice < 1 || orderChoice > history.size()) {
-        std::cout << "Invalid choice. Returning to main menu.\n";
-        return;
+        if (cin.fail()) {
+            cerr << "Invalid input. Please enter a valid integer.\n";
+            cin.clear(); // Clear error flag
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+            continue; // Retry loop
+        }
+
+        if (reorderChoice < 1 || reorderChoice > static_cast<int>(pastOrders.size())) {
+            cerr << "Invalid choice. Please select a number within the valid range.\n";
+            continue; // Retry loop
+        }
+
+        break; // Valid input
     }
 
-    Order reorder = history[orderChoice - 1];
-    reorder.displayOrderSummary();
+    Order reordered = pastOrders[reorderChoice - 1];
+    reordered.displayOrderSummary();
 
-    std::string address, deliveryOption;
-    double deliveryPrice = 0.0;
-
-    std::cout << "\nEnter delivery address: ";
-    std::cin.ignore(); // To clear the newline left by previous input
-    std::getline(std::cin, address);
-
-    std::cout << "Select delivery option:\n";
-    std::cout << "1. Direct (<30 mins)\n";
-    std::cout << "2. Standard (45 mins)\n";
-    std::cout << "3. Saver (60 mins)\n";
-    int deliveryChoice;
-    std::cin >> deliveryChoice;
-
-    switch (deliveryChoice) {
-    case 1:
-        deliveryOption = "Direct (<30 mins)";
-        deliveryPrice = DIRECT_DELIVERY_PRICE;
-        break;
-    case 2:
-        deliveryOption = "Standard (45 mins)";
-        deliveryPrice = STANDARD_DELIVERY_PRICE;
-        break;
-    case 3:
-        deliveryOption = "Saver (60 mins)";
-        deliveryPrice = SAVER_DELIVERY_PRICE;
-        break;
-    default:
-        std::cout << "Invalid choice. Returning to main menu.\n";
-        return;
-    }
-
-    Delivery delivery(address, deliveryOption, deliveryPrice);
-    reorder.setDelivery(delivery);
-
-    reorder.displayOrderSummary(); // Display order summary again with delivery details
-
-    std::cout << "\nSelect payment method:\n";
-    std::cout << "1. Cash on Delivery\n";
-    std::cout << "2. E-Wallet\n";
-    std::cout << "3. Credit Card\n";
-
-    int paymentChoice;
-    std::cin >> paymentChoice;
-
-    std::string paymentMethod;
-    switch (paymentChoice) {
-    case 1:
-        paymentMethod = "Cash";
-        break;
-    case 2:
-        paymentMethod = "E-Wallet";
-        break;
-    case 3:
-        paymentMethod = "Credit Card";
-        break;
-    default:
-        std::cout << "Invalid choice. Returning to main menu.\n";
-        return;
-    }
-
-    double totalAmount = reorder.calculateTotal();
-    totalAmount += deliveryPrice; // Add delivery cost to total amount
-    Payment payment(paymentMethod, totalAmount);
-
-    if (paymentMethod == "Credit Card") {
-        std::string cardNumber, expiryDate, cvv;
-        std::cout << "Enter card number: ";
-        std::cin.ignore(); // To clear the newline left by previous input
-        std::getline(std::cin, cardNumber);
-        std::cout << "Enter expiry date (MM/YY): ";
-        std::getline(std::cin, expiryDate);
-        std::cout << "Enter CVV: ";
-        std::getline(std::cin, cvv);
-        payment.setCardDetails(cardNumber, expiryDate, cvv);
-    }
-
-    if (payment.processPayment()) {
-        orderHistory.addOrder(reorder);
-        std::cout << "\nPayment successful. Your order is on its way!\n";
+    char confirmOrder;
+    cout << "Confirm reorder? (y/n): ";
+    cin >> confirmOrder;
+    if (confirmOrder == 'y' || confirmOrder == 'Y') {
+        try {
+            orderHistory.addOrder(reordered);
+            cout << "Reorder confirmed!\n";
+        }
+        catch (const exception& e) {
+            cerr << "Error adding order to history: " << e.what() << "\n";
+        }
     }
     else {
-        std::cout << "\nPayment failed. Please try again.\n";
+        cout << "Reorder cancelled.\n";
     }
 }
