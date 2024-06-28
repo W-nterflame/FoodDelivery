@@ -35,7 +35,6 @@ public:
         return specialInstructions;
     }
 
-    // Virtual method to display food item details
     virtual void display() const {
         std::cout << "Name: " << name << "\n";
         std::cout << "Price: $" << price << "\n";
@@ -43,25 +42,6 @@ public:
         if (!specialInstructions.empty()) {
             std::cout << "Special Instructions: " << specialInstructions << "\n";
         }
-    }
-};
-
-class MainCourse : public FoodItem {
-private:
-    std::string chefSpecialty;
-
-public:
-    MainCourse(std::string n, double p, std::string d, std::string specialty)
-        : FoodItem(n, p, d), chefSpecialty(specialty) {}
-
-    std::string getChefSpecialty() const {
-        return chefSpecialty;
-    }
-
-    // Override display() method to include chef specialty
-    void display() const override {
-        FoodItem::display(); // Call base class display method
-        std::cout << "Chef Specialty: " << chefSpecialty << "\n";
     }
 };
 
