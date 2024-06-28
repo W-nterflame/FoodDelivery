@@ -13,7 +13,7 @@ private:
 public:
     User(string user, string pass) {
         username = user;
-        password = pass; 
+        password = pass;
     }
 
     string getUsername() const {
