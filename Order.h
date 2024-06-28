@@ -139,7 +139,6 @@ public:
         displayOrderSummary();
     }
 
-
     void displayUtensilOption() {
         char addUtensilsChoice;
         cout << "Do you want to add food utensils? (y/n): ";
