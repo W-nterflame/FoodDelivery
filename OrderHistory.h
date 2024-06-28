@@ -5,29 +5,32 @@
 #include <stdexcept>
 #include "Order.h"
 
+using namespace std;
+
 class OrderHistory {
 private:
-    std::vector<Order> orders;
-    std::string filename; // Filename for storing orders
+    vector<Order> orders;
+    string filename; // Filename for storing orders
 
 public:
-    OrderHistory(const std::string& file) : filename(file) {}
+    OrderHistory(const string& file) : filename(file) {}
 
     void addOrder(const Order& order) {
         orders.push_back(order);
         try {
             saveOrderToFile(order);
         }
-        catch (const std::exception& e) {
-            std::cerr << "Error occurred while saving order: " << e.what() << std::endl;
+        catch (const exception& e) {
+            cerr << "Error occurred while saving order: " << e.what() << endl;
         }
     }
 
     void saveOrderToFile(const Order& order) {
-        std::ofstream file(filename, std::ios::app); // Append mode
+        ofstream file(filename, ios::app); // Append mode
         if (file.is_open()) {
             file << "Order Details\n";
             file << "Delivery Option: " << order.getDelivery().getDeliveryOption() << "\n";
+            file << "Delivery Address: " << order.getDelivery().getAddress() << "\n";
             file << "Delivery Price: $" << order.getDelivery().getDeliveryPrice() << "\n";
             file << "Items Ordered:\n";
             for (size_t i = 0; i < order.getItems().size(); ++i) {
@@ -45,11 +48,11 @@ public:
             file.close();
         }
         else {
-            throw std::runtime_error("Unable to open file for saving orders.");
+            throw runtime_error("Unable to open file for saving orders.");
         }
     }
 
-    const std::vector<Order>& getOrders() const {
+    const vector<Order>& getOrders() const {
         return orders;
     }
 };
