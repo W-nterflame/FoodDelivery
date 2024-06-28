@@ -6,16 +6,18 @@
 #include "FoodItem.h"
 #include "Delivery.h"
 
+using namespace std;
+
 class Order {
 private:
-    std::vector<FoodItem> items;
-    std::vector<int> quantities;
+    vector<FoodItem> items;
+    vector<int> quantities;
     Delivery delivery;
     bool hasUtensils;
     double tipAmount;
 
 public:
-    Order() : delivery("", "", 0.0), hasUtensils(false), tipAmount(0.0) {} // Initialize with default values
+    Order() : delivery("", "", 0.0), hasUtensils(false), tipAmount(0.0) {}
 
     void addItem(const FoodItem& item, int quantity) {
         items.push_back(item);
@@ -30,11 +32,11 @@ public:
         return tipAmount;
     }
 
-    const std::vector<FoodItem>& getItems() const {
+    const vector<FoodItem>& getItems() const {
         return items;
     }
 
-    const std::vector<int>& getQuantities() const {
+    const vector<int>& getQuantities() const {
         return quantities;
     }
 
@@ -60,22 +62,22 @@ public:
     }
 
     void displayOrderSummary() const {
-        std::cout << "Order Summary:\n";
+        cout << "Order Summary:\n";
         for (size_t i = 0; i < items.size(); ++i) {
-            std::cout << items[i].getName() << " x" << quantities[i] << " - $" << items[i].getPrice() * quantities[i] << "\n";
+            cout << items[i].getName() << " x" << quantities[i] << " - $" << items[i].getPrice() * quantities[i] << "\n";
             if (!items[i].getSpecialInstructions().empty()) {
-                std::cout << "  Special instructions: " << items[i].getSpecialInstructions() << "\n";
+                cout << "  Special instructions: " << items[i].getSpecialInstructions() << "\n";
             }
         }
-        std::cout << "Delivery: " << delivery.getDeliveryOption() << " - $" << delivery.getDeliveryPrice() << "\n";
+        cout << "Delivery: " << delivery.getDeliveryOption() << " - $" << delivery.getDeliveryPrice() << "\n";
         if (hasUtensils) {
-            std::cout << "Food Utensils: Yes - $0.5\n";
+            cout << "Food Utensils: Yes - $0.5\n";
         }
         else {
-            std::cout << "Food Utensils: No\n";
+            cout << "Food Utensils: No\n";
         }
-        std::cout << "Tip: $" << tipAmount << "\n";
-        std::cout << "Total: $" << calculateTotal() << "\n";
+        cout << "Tip: $" << tipAmount << "\n";
+        cout << "Total: $" << calculateTotal() << "\n";
     }
 
     void setDelivery(const Delivery& deliveryDetails) {
@@ -91,37 +93,57 @@ public:
         int quantity;
         char addMore;
         do {
-            std::cout << "\nEnter the number of the food item to order: ";
-            std::cin >> itemChoice;
+            // Display restaurant menu
+            cout << "\nRestaurant Menu: " << selectedRestaurant.getName() << "\n";
+            for (int i = 0; i < selectedRestaurant.getMenuSize(); ++i) {
+                FoodItem item = selectedRestaurant.getFoodItem(i);
+                cout << i + 1 << ". " << item.getName() << " - $" << item.getPrice() << "\n";
+                cout << "   Description: " << item.getDescription() << "\n";
+            }
+
+            // Prompt for item choice
+            cout << "\nEnter the number of the food item to order: ";
+            cin >> itemChoice;
             if (itemChoice < 1 || itemChoice > selectedRestaurant.getMenuSize()) {
-                std::cout << "Invalid choice. Please try again.\n";
+                cout << "Invalid choice. Please try again.\n";
                 continue;
             }
 
+            // Retrieve selected item details
             FoodItem selectedItem = selectedRestaurant.getFoodItem(itemChoice - 1);
 
-            std::cout << "Enter quantity: ";
-            std::cin >> quantity;
+            // Prompt for quantity
+            cout << "Enter quantity: ";
+            cin >> quantity;
 
-            std::string specialInstructions;
-            std::cout << "Enter any special instructions (or press Enter to skip): ";
-            std::cin.ignore(); // To clear the newline left by previous input
-            std::getline(std::cin, specialInstructions);
+            // Clear newline from buffer
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+            // Prompt for special instructions
+            string specialInstructions;
+            cout << "Enter any special instructions (or press Enter to skip): ";
+            getline(cin, specialInstructions);
             selectedItem.setSpecialInstructions(specialInstructions);
 
+            // Add item to order
             addItem(selectedItem, quantity);
 
-            std::cout << "Add more items? (y/n): ";
-            std::cin >> addMore;
+            // Prompt to add more items
+            cout << "Add more items? (y/n): ";
+            cin >> addMore;
+            cin.ignore(); // Clear newline from buffer
+
         } while (addMore == 'y' || addMore == 'Y');
 
+        // Display order summary after finalizing items
         displayOrderSummary();
     }
 
+
     void displayUtensilOption() {
         char addUtensilsChoice;
-        std::cout << "Do you want to add food utensils? (y/n): ";
-        std::cin >> addUtensilsChoice;
+        cout << "Do you want to add food utensils? (y/n): ";
+        cin >> addUtensilsChoice;
         if (addUtensilsChoice == 'y' || addUtensilsChoice == 'Y') {
             addFoodUtensils(true);
         }
@@ -132,11 +154,11 @@ public:
 
     void displayTipOption() {
         int tipChoice;
-        std::cout << "Select delivery tip:\n";
-        std::cout << "1. None\n";
-        std::cout << "2. $1\n";
-        std::cout << "3. $2\n";
-        std::cin >> tipChoice;
+        cout << "Select delivery tip:\n";
+        cout << "1. None\n";
+        cout << "2. $1\n";
+        cout << "3. $2\n";
+        cin >> tipChoice;
 
         switch (tipChoice) {
         case 1:
@@ -149,7 +171,7 @@ public:
             addDeliveryTip(2.0); // $2 tip
             break;
         default:
-            std::cout << "Invalid tip choice. No tip will be added.\n";
+            cout << "Invalid tip choice. No tip will be added.\n";
             addDeliveryTip(0.0); // Default to no tip
             break;
         }
