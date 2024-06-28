@@ -3,20 +3,24 @@
 
 #include <string>
 
+using namespace std;
+
 class User {
 private:
-    std::string username;
-    std::string password;
+    string username;
+    string password;
 
 public:
-    User(std::string user, std::string pass)
-        : username(user), password(pass) {}
+    User(string user, string pass) {
+        username = user;
+        password = pass; 
+    }
 
-    std::string getUsername() const {
+    string getUsername() const {
         return username;
     }
 
-    bool authenticate(std::string user, std::string pass) const {
+    bool authenticate(string user, string pass) const {
         return (username == user && password == pass);
     }
 };
