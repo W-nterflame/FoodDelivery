@@ -18,7 +18,7 @@ public:
         return name;
     }
 
-    void addFoodItem(FoodItem item) {
+    void addFoodItem(const FoodItem& item) {
         menu.push_back(item);
     }
 
@@ -30,8 +30,8 @@ public:
         }
     }
 
-    FoodItem getFoodItem(int index) const {
-        if (index >= 0 && index < menu.size()) {
+    const FoodItem& getFoodItem(int index) const {
+        if (index >= 0 && index < static_cast<int>(menu.size())) {
             return menu[index];
         }
         else {
@@ -40,7 +40,7 @@ public:
     }
 
     int getMenuSize() const {
-        return menu.size();
+        return static_cast<int>(menu.size());
     }
 };
 
