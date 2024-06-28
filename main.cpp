@@ -9,20 +9,23 @@
 #include "OrderHistory.h"
 #include "Delivery.h"
 #include "Payment.h"
+#include "Driver.h"
 
 using namespace std;
 
 const string ORDER_HISTORY_FILE = "order_history.csv";
 const double DIRECT_DELIVERY_PRICE = 5.0;
 const double STANDARD_DELIVERY_PRICE = 3.0;
-const double SAVER_DELIVERY_PRICE = 0.0;
+const double SAVER_DELIVERY_PRICE = 1.0;
 
 void displayMainMenu(OrderHistory& orderHistory);
 void login();
 void newFoodOrder(OrderHistory& orderHistory);
 void reorder(OrderHistory& orderHistory);
+void assignAndShowDriver();
 
 vector<Restaurant> initializeRestaurants();
+vector<Driver> initializeDrivers();
 
 int main() {
     try {
@@ -94,28 +97,74 @@ vector<Restaurant> initializeRestaurants() {
     return restaurants;
 }
 
+vector<Driver> initializeDrivers() {
+    vector<Driver> drivers;
+    drivers.push_back(Driver("Somchai Suksawat", "Motorbike - Yamaha FZ", "TH-1234"));
+    drivers.push_back(Driver("Wan Ahmad", "Motorbike - Honda Wave", "MY-5678"));
+    drivers.push_back(Driver("Naree Ploysuwan", "Motorbike - Suzuki GSX", "TH-8765"));
+    drivers.push_back(Driver("Arif Rahman", "Motorbike - Yamaha YZF", "MY-4321"));
+    drivers.push_back(Driver("Sirinun Khun", "Motorbike - Kawasaki Ninja", "TH-9988"));
+    drivers.push_back(Driver("Kanya Sri", "Motorbike - Yamaha FZ", "TH-3344"));
+    drivers.push_back(Driver("Tariq Aziz", "Motorbike - Honda CBR", "MY-5566"));
+    return drivers;
+}
+
 void login() {
-    string username;
-    string password;
-    cout << "Login Menu:\n";
-    cout << "Enter your username: ";
-    cin >> username;
+    User users[] = {
+        User("sirinun_khun", "khunsirinun2566"),  
+        User("thana_suk", "sukthana789"),  
+        User("naree_chai", "chainaree456"),  
+        User("somchai_phuket", "phuketsomchai2566"), 
+        User("winni", "winni1323"), 
+        User("wan_ahmad", "ahmadwan123"), 
+        User("arif_rahman", "rahmanarif789"), 
+        User("lee_wen", "wenlee456"), 
+        User("huang_li", "lihuang123"), 
+        User("zhang_wei", "weizhang789") 
+    };
 
-    cout << "Enter your password: ";
-    cin >> password;
+    string username, password;
+    bool authenticated = false;
 
-    cout << "Login successful.\n";
+    while (!authenticated) {
+        cout << "-----------------------------------\n";
+        cout << "           Welcome to             \n";
+        cout << "          Food Delivery            \n";
+        cout << "-----------------------------------\n";
+        cout << "Enter username: ";
+        cin >> username;
+        cout << "Enter password: ";
+        cin >> password;
+
+        for (const auto& user : users) {
+            if (user.authenticate(username, password)) {
+                cout << "\n-----------------------------------\n";
+                cout << " Login successful! Welcome, " << username << "!\n";
+                cout << "-----------------------------------\n\n";
+                authenticated = true;
+                break;
+            }
+        }
+
+        if (!authenticated) {
+            cout << "\nInvalid username or password. Please try again.\n\n";
+        }
+    }
 }
 
 void displayMainMenu(OrderHistory& orderHistory) {
     int choice;
     do {
         try {
-            cout << "Main Menu\n";
+            cout << "==============================\n";
+            cout << "          Main Menu           \n";
+            cout << "==============================\n";
             cout << "1. New Food Order\n";
             cout << "2. Reorder\n";
             cout << "3. Exit\n";
+            cout << "==============================\n";
             cout << "Enter your choice: ";
+
             cin >> choice;
 
             if (cin.fail()) {
@@ -147,7 +196,9 @@ void displayMainMenu(OrderHistory& orderHistory) {
 void newFoodOrder(OrderHistory& orderHistory) {
     try {
         vector<Restaurant> restaurants = initializeRestaurants();
+        cout << "-----------------------------------\n";
         cout << "Select a restaurant:\n";
+        cout << "-----------------------------------\n";
         for (size_t i = 0; i < restaurants.size(); ++i) {
             cout << i + 1 << ". " << restaurants[i].getName() << "\n";
         }
@@ -172,9 +223,9 @@ void newFoodOrder(OrderHistory& orderHistory) {
         if (addDelivery == 'y' || addDelivery == 'Y') {
             int deliveryOption;
             cout << "Select delivery option:\n";
-            cout << "1. Direct Delivery - $" << DIRECT_DELIVERY_PRICE << "\n";
-            cout << "2. Standard Delivery - $" << STANDARD_DELIVERY_PRICE << "\n";
-            cout << "3. Saver Delivery - Free\n";
+            cout << "1. Direct Delivery - $" << DIRECT_DELIVERY_PRICE << endl;
+            cout << "2. Standard Delivery - $" << STANDARD_DELIVERY_PRICE << endl;
+            cout << "3. Saver Delivery - $" << SAVER_DELIVERY_PRICE << endl;
             cin >> deliveryOption;
 
             if (cin.fail() || deliveryOption < 1 || deliveryOption > 3) {
@@ -183,15 +234,21 @@ void newFoodOrder(OrderHistory& orderHistory) {
                 throw invalid_argument("Invalid delivery option. Please select a valid delivery option.");
             }
 
+            // Get delivery address
+            string deliveryAddress;
+            cout << "Enter delivery address: ";
+            cin.ignore(); // Ignore newline left in the buffer
+            getline(cin, deliveryAddress);
+
             switch (deliveryOption) {
             case 1:
-                order.setDelivery(Delivery("Default Address", "Direct Delivery", DIRECT_DELIVERY_PRICE));
+                order.setDelivery(Delivery(deliveryAddress, "Direct Delivery", DIRECT_DELIVERY_PRICE));
                 break;
             case 2:
-                order.setDelivery(Delivery("Default Address", "Standard Delivery", STANDARD_DELIVERY_PRICE));
+                order.setDelivery(Delivery(deliveryAddress, "Standard Delivery", STANDARD_DELIVERY_PRICE));
                 break;
             case 3:
-                order.setDelivery(Delivery("Default Address", "Saver Delivery", SAVER_DELIVERY_PRICE));
+                order.setDelivery(Delivery(deliveryAddress, "Saver Delivery", SAVER_DELIVERY_PRICE));
                 break;
             default:
                 throw invalid_argument("Invalid delivery option.");
@@ -208,6 +265,8 @@ void newFoodOrder(OrderHistory& orderHistory) {
         if (confirmOrder == 'y' || confirmOrder == 'Y') {
             orderHistory.addOrder(order);
             cout << "Order confirmed!\n";
+            cout << "-------------------------\n";
+            assignAndShowDriver();
         }
         else {
             cout << "Order cancelled.\n";
@@ -252,6 +311,8 @@ void reorder(OrderHistory& orderHistory) {
         if (confirmOrder == 'y' || confirmOrder == 'Y') {
             orderHistory.addOrder(reordered);
             cout << "Reorder confirmed!\n";
+            cout << "-------------------------\n";
+            assignAndShowDriver();
         }
         else {
             cout << "Reorder cancelled.\n";
@@ -261,5 +322,21 @@ void reorder(OrderHistory& orderHistory) {
     catch (const exception& e) {
         cerr << "Error: " << e.what() << endl;
     }
+}
+
+void assignAndShowDriver() {
+    vector<Driver> drivers = initializeDrivers();
+    if (drivers.empty()) {
+        cerr << "No drivers available.\n";
+        return;
+    }
+
+    int randomIndex = rand() % drivers.size();
+    Driver assignedDriver = drivers[randomIndex];
+
+    cout << "Driver Details:\n";
+    cout << "Name: " << assignedDriver.getName() << "\n";
+    cout << "Vehicle: " << assignedDriver.getVehicle() << "\n";
+    cout << "License Plate: " << assignedDriver.getLicensePlate() << "\n";
 }
 
