@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
-#include <stdexcept> 
+#include <stdexcept>
+#include <limits>
 #include "User.h"
 #include "Restaurant.h"
 #include "FoodItem.h"
@@ -54,14 +55,41 @@ vector<Restaurant> initializeRestaurants() {
     r2.addFoodItem(FoodItem("Green Tea", 2.50, "Refreshing hot or cold green tea."));
     restaurants.push_back(r2);
 
-    Restaurant r3("Aroi Delights");
-    r3.addFoodItem(FoodItem("Fresh Spring Rolls", 5.99, "Rice paper rolls with shrimp, pork, vegetables, and peanut dipping sauce."));
-    r3.addFoodItem(FoodItem("Ayutthaya Boat Noodle", 2.99, "Classic bowl of mild spicy sour boat noodle."));
-    r3.addFoodItem(FoodItem("Pad Thai", 7.99, "Stir-fried rice noodles with egg, vegetables, and your choice of protein."));
-    r3.addFoodItem(FoodItem("Tom Yum Goong", 8.99, "Fragrant and sour soup with shrimp, lemongrass, kaffir lime leaves, and mushrooms."));
-    r3.addFoodItem(FoodItem("Tom Kha Gai", 8.50, "Creamy coconut soup with chicken, galangal, lemongrass, and kaffir lime leaves."));
-    r3.addFoodItem(FoodItem("Thai Iced Tea", 3.50, "Sweet and refreshing iced tea with condensed milk."));
+    Restaurant r3("Northern Delights");
+    r3.addFoodItem(FoodItem("Khao Soi", 10.99, "Spicy yellow curry noodle soup with egg noodles, chicken, and crispy fried noodles."));
+    r3.addFoodItem(FoodItem("Sai Oua", 8.99, "Northern Thai sausage with lemongrass, galangal, kaffir lime leaves, and spices."));
+    r3.addFoodItem(FoodItem("Nam Prik Ong", 7.50, "Spicy tomato chili dip with vegetables and crispy pork rinds."));
+    r3.addFoodItem(FoodItem("Khanom Jeen Nam Ngiao", 8.50, "Northern fermented rice noodles with various curries and toppings."));
+    r3.addFoodItem(FoodItem("Mango Sticky Rice", 6.50, "Sweet sticky rice with fresh mango slices and creamy coconut milk."));
+    r3.addFoodItem(FoodItem("Chiang Mai Iced Tea", 4.50, "Sweet and refreshing iced tea with condensed milk and tamarind syrup."));
     restaurants.push_back(r3);
+
+    Restaurant r4("Penang Delights");
+    r4.addFoodItem(FoodItem("Satay", 12.99, "Marinated skewered chicken or beef grilled to perfection, served with peanut sauce and cucumber relish."));
+    r4.addFoodItem(FoodItem("Laksa", 9.99, "Spicy and creamy noodle soup with your choice of protein (chicken, seafood, or vegetarian) and various herbs."));
+    r4.addFoodItem(FoodItem("Nasi Lemak", 8.99, "Fragrant coconut rice served with fried anchovies, peanuts, cucumber, sambal (chili paste), and your choice of protein (chicken rendang, fried fish, or egg)."));
+    r4.addFoodItem(FoodItem("Char Kway Teow", 8.50, "Stir-fried flat rice noodles with egg, vegetables, seafood (optional), and a savory sauce."));
+    r4.addFoodItem(FoodItem("Roti Canai", 5.50, "Crispy flatbread served with rich lentil curry or dhal."));
+    r4.addFoodItem(FoodItem("Cendol", 4.50, "Shaved ice dessert with green jelly noodles, coconut milk, and palm sugar syrup."));
+    restaurants.push_back(r4);
+
+    Restaurant r5("Ayutthaya Flavours");
+    r5.addFoodItem(FoodItem("Pad Thai", 8.99, "Stir-fried rice noodles with egg, vegetables, and your choice of protein (chicken, shrimp, or tofu)."));
+    r5.addFoodItem(FoodItem("Khao Pad Sapparot", 9.99, "Pineapple fried rice with shrimp, egg, vegetables, and pineapple chunks."));
+    r5.addFoodItem(FoodItem("Tom Yum Goong", 8.99, "Fragrant and sour soup with shrimp, lemongrass, kaffir lime leaves, and mushrooms."));
+    r5.addFoodItem(FoodItem("Gaeng Phet", 10.99, "Red curry with your choice of protein (chicken, beef, or vegetables) and bamboo shoots."));
+    r5.addFoodItem(FoodItem("Boat Noodles", 3.50, "Small bowls of rice noodles in a rich and flavorful broth with various toppings."));
+    r5.addFoodItem(FoodItem("Thai Iced Tea", 3.50, "Sweet and refreshing iced tea with condensed milk."));
+    restaurants.push_back(r5);
+
+    Restaurant r6("Warung Sari Rasa");
+    r6.addFoodItem(FoodItem("Nasi Goreng Jawa", 8.99, "Fried rice with Javanese spices, vegetables, and your choice of protein (chicken, shrimp, or tempe)."));
+    r6.addFoodItem(FoodItem("Gado-Gado", 9.99, "Steamed vegetables with peanut sauce and a fried egg."));
+    r6.addFoodItem(FoodItem("Rawon", 10.99, "Beef stew in a rich black broth with kluwek (tropical nut) and herbs."));
+    r6.addFoodItem(FoodItem("Soto Ayam", 8.50, "Clear chicken soup with noodles, vegetables, and hard-boiled egg."));
+    r6.addFoodItem(FoodItem("Tempe Mendoan", 5.50, "Crispy fried tempeh (fermented soybean cake) with a savory batter."));
+    r6.addFoodItem(FoodItem("Kolak Pisang", 4.50, "Sweet dessert soup with bananas, coconut milk, and palm sugar."));
+    restaurants.push_back(r6);
 
     return restaurants;
 }
@@ -82,148 +110,155 @@ void login() {
 void displayMainMenu(OrderHistory& orderHistory) {
     int choice;
     do {
-        cout << "Main Menu\n";
-        cout << "1. New Food Order\n";
-        cout << "2. Reorder\n";
-        cout << "3. Exit\n";
-        cout << "Enter your choice: ";
-        cin >> choice;
+        try {
+            cout << "Main Menu\n";
+            cout << "1. New Food Order\n";
+            cout << "2. Reorder\n";
+            cout << "3. Exit\n";
+            cout << "Enter your choice: ";
+            cin >> choice;
 
-        switch (choice) {
-        case 1:
-            newFoodOrder(orderHistory);
-            break;
-        case 2:
-            reorder(orderHistory);
-            break;
-        case 3:
-            cout << "Exiting...\n";
-            break;
-        default:
-            cout << "Invalid choice. Please try again.\n";
-            break;
+            if (cin.fail()) {
+                cin.clear(); // Clear the error flag
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore incorrect input
+                throw invalid_argument("Invalid input. Please enter a valid number.");
+            }
+
+            switch (choice) {
+            case 1:
+                newFoodOrder(orderHistory);
+                break;
+            case 2:
+                reorder(orderHistory);
+                break;
+            case 3:
+                cout << "Exiting...\n";
+                break;
+            default:
+                throw out_of_range("Invalid choice. Please try again.");
+            }
+        }
+        catch (const exception& e) {
+            cerr << "Error: " << e.what() << endl;
         }
     } while (choice != 3);
 }
 
 void newFoodOrder(OrderHistory& orderHistory) {
-    vector<Restaurant> restaurants = initializeRestaurants();
-    cout << "Select a restaurant:\n";
-    for (size_t i = 0; i < restaurants.size(); ++i) {
-        cout << i + 1 << ". " << restaurants[i].getName() << "\n";
-    }
+    try {
+        vector<Restaurant> restaurants = initializeRestaurants();
+        cout << "Select a restaurant:\n";
+        for (size_t i = 0; i < restaurants.size(); ++i) {
+            cout << i + 1 << ". " << restaurants[i].getName() << "\n";
+        }
 
-    int restaurantChoice;
-    cout << "Enter the number of the restaurant: ";
-    cin >> restaurantChoice;
+        int restaurantChoice;
+        cout << "Enter the number of the restaurant: ";
+        cin >> restaurantChoice;
 
-    if (restaurantChoice < 1 || restaurantChoice > restaurants.size()) {
-        cout << "Invalid choice. Returning to main menu.\n";
-        return;
-    }
+        if (cin.fail() || restaurantChoice < 1 || restaurantChoice > restaurants.size()) {
+            cin.clear(); // Clear the error flag
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore incorrect input
+            throw invalid_argument("Invalid choice. Please select a valid restaurant number.");
+        }
 
-    Restaurant selectedRestaurant = restaurants[restaurantChoice - 1];
+        Restaurant selectedRestaurant = restaurants[restaurantChoice - 1];
+        Order order;
+        order.displayOrderMenu(selectedRestaurant);
 
-    cout << "Menu for " << selectedRestaurant.getName() << ":\n";
-    selectedRestaurant.displayMenu();
+        char addDelivery;
+        cout << "Add delivery? (y/n): ";
+        cin >> addDelivery;
+        if (addDelivery == 'y' || addDelivery == 'Y') {
+            int deliveryOption;
+            cout << "Select delivery option:\n";
+            cout << "1. Direct Delivery - $" << DIRECT_DELIVERY_PRICE << "\n";
+            cout << "2. Standard Delivery - $" << STANDARD_DELIVERY_PRICE << "\n";
+            cout << "3. Saver Delivery - Free\n";
+            cin >> deliveryOption;
 
-    Order order;
-    order.displayOrderMenu(selectedRestaurant);
+            if (cin.fail() || deliveryOption < 1 || deliveryOption > 3) {
+                cin.clear(); // Clear the error flag
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore incorrect input
+                throw invalid_argument("Invalid delivery option. Please select a valid delivery option.");
+            }
 
-    char addDelivery;
-    cout << "Add delivery? (y/n): ";
-    cin >> addDelivery;
-    if (addDelivery == 'y' || addDelivery == 'Y') {
-        int deliveryOption;
-        cout << "Select delivery option:\n";
-        cout << "1. Direct Delivery - $" << DIRECT_DELIVERY_PRICE << "\n";
-        cout << "2. Standard Delivery - $" << STANDARD_DELIVERY_PRICE << "\n";
-        cout << "3. Saver Delivery - Free\n";
-        cin >> deliveryOption;
+            switch (deliveryOption) {
+            case 1:
+                order.setDelivery(Delivery("Default Address", "Direct Delivery", DIRECT_DELIVERY_PRICE));
+                break;
+            case 2:
+                order.setDelivery(Delivery("Default Address", "Standard Delivery", STANDARD_DELIVERY_PRICE));
+                break;
+            case 3:
+                order.setDelivery(Delivery("Default Address", "Saver Delivery", SAVER_DELIVERY_PRICE));
+                break;
+            default:
+                throw invalid_argument("Invalid delivery option.");
+            }
+        }
 
-        switch (deliveryOption) {
-        case 1:
-            order.setDelivery(Delivery("Direct Delivery", "Fastest delivery option", DIRECT_DELIVERY_PRICE));
-            break;
-        case 2:
-            order.setDelivery(Delivery("Standard Delivery", "Regular delivery time", STANDARD_DELIVERY_PRICE));
-            break;
-        case 3:
-            order.setDelivery(Delivery("Saver Delivery", "Longer delivery time", SAVER_DELIVERY_PRICE));
-            break;
-        default:
-            cout << "Invalid delivery option. No delivery will be added.\n";
-            break;
+        order.displayUtensilOption();
+        order.displayTipOption();
+        order.displayOrderSummary();
+
+        char confirmOrder;
+        cout << "Confirm order? (y/n): ";
+        cin >> confirmOrder;
+        if (confirmOrder == 'y' || confirmOrder == 'Y') {
+            orderHistory.addOrder(order);
+            cout << "Order confirmed!\n";
+        }
+        else {
+            cout << "Order cancelled.\n";
         }
     }
-
-    order.displayUtensilOption();
-    order.displayTipOption();
-
-    order.displayOrderSummary();
-
-    char confirmOrder;
-    cout << "Confirm order? (y/n): ";
-    cin >> confirmOrder;
-    if (confirmOrder == 'y' || confirmOrder == 'Y') {
-        orderHistory.addOrder(order);
-        cout << "Order confirmed!\n";
-    }
-    else {
-        cout << "Order cancelled.\n";
+    catch (const exception& e) {
+        cerr << "Error: " << e.what() << endl;
     }
 }
 
 void reorder(OrderHistory& orderHistory) {
-    const vector<Order>& pastOrders = orderHistory.getOrders();
-    if (pastOrders.empty()) {
-        cout << "No past orders found.\n";
-        return;
-    }
+    try {
+        const vector<Order>& pastOrders = orderHistory.getOrders();
+        if (pastOrders.empty()) {
+            throw runtime_error("No past orders found.");
+        }
 
-    cout << "Select a past order to reorder:\n";
-    for (size_t i = 0; i < pastOrders.size(); ++i) {
-        cout << "Order " << i + 1 << ":\n";
-        pastOrders[i].displayOrderSummary();
-        cout << "-------------------------\n";
-    }
+        cout << "Select a past order to reorder:\n";
+        for (size_t i = 0; i < pastOrders.size(); ++i) {
+            cout << "Order " << i + 1 << ":\n";
+            pastOrders[i].displayOrderSummary();
+            cout << "-------------------------\n";
+        }
 
-    int reorderChoice;
-    while (true) {
+        int reorderChoice;
         cout << "Enter the number of the order to reorder: ";
         cin >> reorderChoice;
 
-        if (cin.fail()) {
-            cerr << "Invalid input. Please enter a valid integer.\n";
-            cin.clear(); // Clear error flag
-            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-            continue; // Retry loop
+        if (cin.fail() || reorderChoice < 1 || reorderChoice > static_cast<int>(pastOrders.size())) {
+            cin.clear(); // Clear the error flag
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore incorrect input
+            throw invalid_argument("Invalid choice. Please select a valid order number.");
         }
 
-        if (reorderChoice < 1 || reorderChoice > static_cast<int>(pastOrders.size())) {
-            cerr << "Invalid choice. Please select a number within the valid range.\n";
-            continue; // Retry loop
-        }
+        Order reordered = pastOrders[reorderChoice - 1];
+        reordered.displayOrderSummary();
 
-        break; // Valid input
-    }
-
-    Order reordered = pastOrders[reorderChoice - 1];
-    reordered.displayOrderSummary();
-
-    char confirmOrder;
-    cout << "Confirm reorder? (y/n): ";
-    cin >> confirmOrder;
-    if (confirmOrder == 'y' || confirmOrder == 'Y') {
-        try {
+        char confirmOrder;
+        cout << "Confirm reorder? (y/n): ";
+        cin >> confirmOrder;
+        if (confirmOrder == 'y' || confirmOrder == 'Y') {
             orderHistory.addOrder(reordered);
             cout << "Reorder confirmed!\n";
         }
-        catch (const exception& e) {
-            cerr << "Error adding order to history: " << e.what() << "\n";
+        else {
+            cout << "Reorder cancelled.\n";
         }
+
     }
-    else {
-        cout << "Reorder cancelled.\n";
+    catch (const exception& e) {
+        cerr << "Error: " << e.what() << endl;
     }
 }
+
