@@ -62,22 +62,24 @@ public:
     }
 
     void displayOrderSummary() const {
+        cout << "-------------------------" << endl;
         cout << "Order Summary:\n";
         for (size_t i = 0; i < items.size(); ++i) {
-            cout << items[i].getName() << " x" << quantities[i] << " - $" << items[i].getPrice() * quantities[i] << "\n";
+            cout << items[i].getName() << " x" << quantities[i] << " - $" << items[i].getPrice() * quantities[i] << endl;
             if (!items[i].getSpecialInstructions().empty()) {
-                cout << "  Special instructions: " << items[i].getSpecialInstructions() << "\n";
+                cout << "  Special instructions: " << items[i].getSpecialInstructions() << endl;
             }
         }
-        cout << "Delivery: " << delivery.getDeliveryOption() << " - $" << delivery.getDeliveryPrice() << "\n";
+        cout << "Delivery: " << delivery.getDeliveryOption() << " - $" << delivery.getDeliveryPrice() << endl;
+        cout << "Address: " << delivery.getAddress() << endl;
         if (hasUtensils) {
             cout << "Food Utensils: Yes - $0.5\n";
         }
         else {
             cout << "Food Utensils: No\n";
         }
-        cout << "Tip: $" << tipAmount << "\n";
-        cout << "Total: $" << calculateTotal() << "\n";
+        cout << "Tip: $" << tipAmount << endl;
+        cout << "Total: $" << calculateTotal() << endl;
     }
 
     void setDelivery(const Delivery& deliveryDetails) {
@@ -94,11 +96,12 @@ public:
         char addMore;
         do {
             // Display restaurant menu
-            cout << "\nRestaurant Menu: " << selectedRestaurant.getName() << "\n";
+            cout << "-----------------------------------\n";
+            cout << "\nRestaurant Menu: " << selectedRestaurant.getName() << endl;
             for (int i = 0; i < selectedRestaurant.getMenuSize(); ++i) {
                 FoodItem item = selectedRestaurant.getFoodItem(i);
-                cout << i + 1 << ". " << item.getName() << " - $" << item.getPrice() << "\n";
-                cout << "   Description: " << item.getDescription() << "\n";
+                cout << i + 1 << ". " << item.getName() << " - $" << item.getPrice() << endl;
+                cout << "   Description: " << item.getDescription() << endl;
             }
 
             // Prompt for item choice
