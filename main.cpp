@@ -226,6 +226,7 @@ void reorder(OrderHistory& orderHistory) {
         }
 
         cout << "Select a past order to reorder:\n";
+        cout << "-------------------------\n";
         for (size_t i = 0; i < pastOrders.size(); ++i) {
             cout << "Order " << i + 1 << ":\n";
             pastOrders[i].displayOrderSummary();
