@@ -3,29 +3,31 @@
 
 #include <string>
 
+using namespace std;
+
 class Delivery {
 private:
-    std::string address;
-    std::string deliveryOption;
+    string address;
+    string deliveryOption;
     double deliveryPrice;
 
 public:
-    Delivery(const std::string& addr, const std::string& option, double price)
+    Delivery(const string& addr, const string& option, double price)
         : address(addr), deliveryOption(option), deliveryPrice(price) {}
 
-    std::string getAddress() const {
+    string getAddress() const {
         return address;
     }
 
-    void setAddress(const std::string& addr) {
+    void setAddress(const string& addr) {
         address = addr;
     }
 
-    std::string getDeliveryOption() const {
+    string getDeliveryOption() const {
         return deliveryOption;
     }
 
-    void setDeliveryOption(const std::string& option) {
+    void setDeliveryOption(const string& option) {
         deliveryOption = option;
     }
 
