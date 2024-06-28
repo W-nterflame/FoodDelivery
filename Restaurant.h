@@ -6,15 +6,17 @@
 #include <iostream>
 #include "FoodItem.h"
 
+using namespace std;
+
 class Restaurant {
 private:
-    std::string name;
-    std::vector<FoodItem> menu;
+    string name;
+    vector<FoodItem> menu;
 
 public:
-    Restaurant(std::string n) : name(n) {}
+    Restaurant(string n) : name(n) {}
 
-    std::string getName() const {
+    string getName() const {
         return name;
     }
 
@@ -23,9 +25,9 @@ public:
     }
 
     void displayMenu() const {
-        std::cout << "Menu for " << name << ":\n";
+        cout << "Menu for " << name << ":\n";
         for (size_t i = 0; i < menu.size(); ++i) {
-            std::cout << i + 1 << ". " << menu[i].getName() << " - $" << menu[i].getPrice() << "\n"
+            cout << i + 1 << ". " << menu[i].getName() << " - $" << menu[i].getPrice() << "\n"
                 << "   Description: " << menu[i].getDescription() << "\n";
         }
     }
@@ -35,7 +37,7 @@ public:
             return menu[index];
         }
         else {
-            throw std::out_of_range("Invalid menu item index");
+            throw out_of_range("Invalid menu item index");
         }
     }
 
