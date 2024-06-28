@@ -3,19 +3,21 @@
 
 #include <string>
 
+using namespace std;
+
 class Driver {
 public:
-    Driver(const std::string& name, const std::string& vehicle, const std::string& licensePlate)
+    Driver(const string& name, const string& vehicle, const string& licensePlate)
         : name(name), vehicle(vehicle), licensePlate(licensePlate) {}
 
-    std::string getName() const { return name; }
-    std::string getVehicle() const { return vehicle; }
-    std::string getLicensePlate() const { return licensePlate; }
+    string getName() const { return name; }
+    string getVehicle() const { return vehicle; }
+    string getLicensePlate() const { return licensePlate; }
 
 private:
-    std::string name;
-    std::string vehicle;
-    std::string licensePlate;
+    string name;
+    string vehicle;
+    string licensePlate;
 };
 
 #endif
